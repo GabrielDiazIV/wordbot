@@ -53,7 +53,7 @@ int main() {
     std::string y;
     for (;;) {
         w.add_invalid_letters();
-        w.display_options(&random);
+        w.display_options(&risk);
 
         std::cout << "New game (y/n)? ";
         std::cin >> y;

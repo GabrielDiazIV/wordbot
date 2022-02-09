@@ -74,7 +74,7 @@ int Wordle::simulate(std::string wordle, std::string start,
                      std::string (*func)(Options)) {
     int n = 0;
     t.count_words(n);
-    // std::cout << "wordle: " << wordle << " - " << n << std::endl;
+    std::cout << "wordle: " << wordle << std::endl;
 
     // std::string key = display_options(func, "*****");
     std::string key = start;
@@ -94,9 +94,10 @@ int Wordle::simulate(std::string wordle, std::string start,
                 t.add_invalid_char(key[i]);
             }
         }
-        // std::cout << "\tturn " << turn << " --> " << key << " --> " <<
-        // next_key
-        //   << std::endl;
+        int words_left = 0;
+        t.count_words(words_left);
+        std::cout << "\tturn " << turn << " --> " << key << " --> " << next_key
+                  << " left: " << words_left << std::endl;
         // std::cout << "\tnew_key: " << next_key << std::endl;
 
         key = display_options(func, next_key);

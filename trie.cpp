@@ -44,7 +44,8 @@ bool Trie::validate(const Node* node) {
     }
     return true;
 };
-void Trie::_wild(Node* curr, const std::string& key, size_t pos, Options& ops) {
+void Trie::_wild(Node*& curr, const std::string& key, size_t pos,
+                 Options& ops) {
     if (curr->isWord && validate(curr)) {
         ops.push_back(curr->word);
         return;

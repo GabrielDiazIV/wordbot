@@ -26,7 +26,7 @@ class Trie {
     void _add(Node*, const std::string&, size_t);
     Node* _at(Node*, const std::string&, size_t);
     Options _options(Node*, const std::string&, Options&);
-    void _wild(Node*, const std::string&, size_t, Options&);
+    void _wild(Node*&, const std::string&, size_t, Options&);
     void _reset(Node*);
 
     void _count(Node* curr, int& num) {
