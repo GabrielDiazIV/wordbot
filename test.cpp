@@ -1,8 +1,9 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_set>
 
-#include "trie.h"
+#include "wordle.h"
 
 std::string random(Options ops) { return ops.front(); }
 
@@ -24,29 +25,38 @@ std::string random(Options ops) { return ops.front(); }
 //     return max;
 // }
 
+std::string risk(Options ops) {
+    // int z = ops.size();
+    std::string best = ops.front();
+    int reward = 0;
+    int highest_reward = 0;
+
+    for (auto op : ops) {
+        std::unordered_set<int> s(op.begin(), op.end());
+        reward = 0;
+        for (auto cmp : ops) {
+            int res = count_if(cmp.begin(), cmp.end(),
+                               [&](int k) { return s.find(k) != s.end(); });
+            reward += res;
+        }
+        if (reward > highest_reward) {
+            highest_reward = reward;
+            best = op;
+        }
+    }
+
+    return best;
+}
+
 int main() {
-    // Wordle w;
-    // std::string y;
-    // for (;;) {
-    //     w.add_invalid_letters();
-    //     w.display_options(&random);
+    Wordle w;
+    std::string y;
+    for (;;) {
+        w.add_invalid_letters();
+        w.display_options(&random);
 
-    //     std::cout << "New game (y/n)? ";
-    //     std::cin >> y;
-    //     if (y == "y") w.new_game();
-    // }
-
-    Trie t;
-    t.add_word("picle");
-    t.add_word("pikes");
-    t.add_word("pifff");
-    t.add_word("aifff");
-    int a = 0;
-    t.count_words(a);
-
-    std::cout << "SIZE: " << a << std::endl;
-    auto ss = t.find_wild("pi***");
-    for (auto s : ss) {
-        std::cout << s << std::endl;
+        std::cout << "New game (y/n)? ";
+        std::cin >> y;
+        if (y == "y") w.new_game();
     }
 }
