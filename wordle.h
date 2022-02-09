@@ -24,5 +24,5 @@ class Wordle {
     void display_help() const;
     void new_game();
 
-    int simulate(std::string (*func)(Options));
+    int simulate(std::string, std::string, std::string (*func)(Options));
 };

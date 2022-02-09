@@ -1,2 +1,7 @@
 Desc        Amount      Avg
 front       5,000       4.054
+freq_best   2316        4.345
+
+Executed in   18.01 secs    fish           external
+   usr time   17.64 secs    0.06 millis   17.64 secs
+   sys time    0.18 secs    1.06 millis    0.18 secs

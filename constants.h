@@ -292,7 +292,7 @@ class Constants {
         "worse", "worst", "worth", "would", "wound", "woven", "wrack", "wrath",
         "wreak", "wreck", "wrest", "wring", "wrist", "write", "wrong", "wrote",
         "wrung", "wryly", "yacht", "yearn", "yeast", "yield", "young", "youth",
-        "zebra", "zesty", "zonal", "farts"};
+        "zebra", "zesty", "zonal", "farts", "adieu"};
     static const constexpr size_t WORD_COUNT = ARR_LEN(WORDS);
 
     static const constexpr double FREQ[] = {

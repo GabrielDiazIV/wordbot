@@ -8,7 +8,7 @@
 void Trie::_add(Node* curr, const std::string& word, size_t i) {
     if (word.length() == i) return;
     if (curr->children[index(word[i])] == nullptr)
-        curr->children[index(word[i])] = new Node;
+        curr->children[index(word[i])] = new Node();
 
     if (word.length() - 1 == i) {
         curr->children[index(word[i])]->isWord = true;
@@ -45,52 +45,33 @@ bool Trie::validate(const Node* node) {
     return true;
 };
 void Trie::_wild(Node* curr, const std::string& key, size_t pos, Options& ops) {
-    if (curr->isWord && validate(curr))
+    if (curr->isWord && validate(curr)) {
         ops.push_back(curr->word);
-    else {
-        Node* child;
-        int inc = 1;
-        if (key[pos] == '!') {
-            must_contain.insert(key[pos + 1]);
-            child = curr->children[index(key[pos + 1])];
-            if (child != nullptr) child->allowed = false;
-            inc++;
-        }
+        return;
+    }
 
-        if (isalpha(key[pos])) {
-            child = curr->children[index(key[pos])];
-            if (child != nullptr && child->allowed)
-                _wild(child, key, pos + 1, ops);
-        } else {
-            for (int i = 0; i < CHILDREN_SIZE; ++i) {
-                child = curr->children[i];
-                if (child != nullptr &&
-                    child->allowed &
-                        !invalid_letters.contains((char)(i + 'a'))) {
-                    _wild(child, key, pos + inc, ops);
-                }
-            }
+    int inc = key[pos] == '!' ? 2 : 1;
+    if (key[pos] == '!') {
+        must_contain.insert(key[pos + 1]);
+        if (curr->children[index(key[pos + 1])]) {
+            curr->children[index(key[pos + 1])]->allowed = false;
+            invalid_nodes.insert(curr->children[index(key[pos + 1])]);
         }
     }
-    // if (key[index] == '*' || key[index] == '!') {
 
-    //     if (key[index] == '!') {
-    //         must_contain.insert(key[index + 1]);
-    //         curr->children[(int)key[index + 1]] = nullptr;
-    //     }
-
-    //     for (int i = 0; i < CHILDREN_SIZE; i++) {
-    //         Trie::Node* child = curr->children[i];
-    //         if (child != nullptr && !invalid_letters.contains((char)i)) {
-    //             // if (key[index] == '!' && key[index + 1] == (char)i)
-    //             continue; auto inc = key[index] == '!' ? 2 : 1; _wild(child,
-    //             key, index + inc, ops);
-    //         }
-    //     }
-    // } else {
-    //     Trie::Node* child = curr->children[(int)key[index]];
-    //     if (child != nullptr) _wild(child, key, index + 1, ops);
-    // }
+    Node* child;
+    if (isalpha(key[pos])) {
+        child = curr->children[index(key[pos])];
+        if (child != nullptr && child->allowed)
+            _wild(child, key, pos + inc, ops);
+    } else {
+        for (int i = 0; i < CHILDREN_SIZE; ++i) {
+            child = curr->children[i];
+            if (child != nullptr && child->allowed &&
+                !invalid_letters.contains((char)(i + 'a')))
+                _wild(child, key, pos + inc, ops);
+        }
+    }
 }
 
 void Trie::add_invalid_char(const char invalid) {
@@ -98,7 +79,7 @@ void Trie::add_invalid_char(const char invalid) {
 }
 
 void Trie::_reset(Node* curr) {
-    if (curr != nullptr) return;
+    if (curr == nullptr) return;
     curr->allowed = true;
 
     for (int i = 0; i < CHILDREN_SIZE; i++) {

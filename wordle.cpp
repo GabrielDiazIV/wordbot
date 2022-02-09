@@ -35,7 +35,6 @@ std::string Wordle::display_options(std::string (*func)(Options),
     }
 
     ops = t.find_wild(key);
-    std::cout << "\t" << ops.size() << std::endl;
     if (in == "-") std::cout << *ops.begin() << std::endl;
     return func(ops);
 };
@@ -66,17 +65,19 @@ void Wordle::add_invalid_letters(std::string key) {
 void Wordle::new_game() { t.reset(); };
 
 void Wordle::display_help() const {
-    std::cout << "*  ----> wildcard" << std::endl;
+    std::cout << "*  ---> wildcard" << std::endl;
     std::cout << "!n ---> character is not 'n'" << std::endl;
     std::cout << "n  ---> character is 'n'" << std::endl;
 }
 
-int Wordle::simulate(std::string (*func)(Options)) {
-    std::string wordle = Constants::WORDS[rand() % Constants::WORD_COUNT];
+int Wordle::simulate(std::string wordle, std::string start,
+                     std::string (*func)(Options)) {
+    int n = 0;
+    t.count_words(n);
+    // std::cout << "wordle: " << wordle << " - " << n << std::endl;
 
-    std::cout << "wordle: " << wordle << std::endl;
-
-    std::string key = display_options(func, "*****");
+    // std::string key = display_options(func, "*****");
+    std::string key = start;
     std::string next_key = "";
 
     for (int turn = 0; turn < 6; turn++) {
@@ -93,11 +94,9 @@ int Wordle::simulate(std::string (*func)(Options)) {
                 t.add_invalid_char(key[i]);
             }
         }
-        std::cout << "\tturn " << turn << " --> " << key << " --> " << next_key
-                  << std::endl;
-        std::cout << "\t" << t.invalid().size() << "\t" << t.must_contain.size()
-                  << std::endl;
-
+        // std::cout << "\tturn " << turn << " --> " << key << " --> " <<
+        // next_key
+        //   << std::endl;
         // std::cout << "\tnew_key: " << next_key << std::endl;
 
         key = display_options(func, next_key);
