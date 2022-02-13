@@ -63,6 +63,13 @@ void Trie::_wild(Node*& curr, const std::string& key, size_t pos,
     Node* child;
     if (isalpha(key[pos])) {
         child = curr->children[index(key[pos])];
+        for (int i = 0; i < CHILDREN_SIZE; i++) {
+            if (curr->children[i] != nullptr && i != index(key[pos])) {
+                curr->children[i]->allowed = false;
+                invalid_nodes.insert(curr->children[i]);
+                // invalid_letters.insert(i);
+            }
+        }
         if (child != nullptr && child->allowed)
             _wild(child, key, pos + inc, ops);
     } else {

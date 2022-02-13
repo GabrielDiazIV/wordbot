@@ -32,6 +32,7 @@ class Trie {
     void _count(Node* curr, int& num) {
         if (curr == nullptr) return;
         if (!curr->allowed) return;
+        if (invalid_nodes.contains(curr)) return;
 
         if (curr->isWord) num++;
         for (int i = 0; i < CHILDREN_SIZE; i++) {
@@ -85,6 +86,7 @@ class Trie {
         for (auto& node : invalid_nodes) {
             node->allowed = true;
         }
+        invalid_nodes.clear();
     }
     int index(const char& c) { return c - 'a'; }
 };

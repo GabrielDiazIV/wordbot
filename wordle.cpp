@@ -97,7 +97,7 @@ int Wordle::simulate(std::string wordle, std::string start,
         int words_left = 0;
         t.count_words(words_left);
         std::cout << "\tturn " << turn << " --> " << key << " --> " << next_key
-                  << " left: " << words_left << std::endl;
+                  << std::endl;
         // std::cout << "\tnew_key: " << next_key << std::endl;
 
         key = display_options(func, next_key);

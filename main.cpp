@@ -83,19 +83,21 @@ int main() {
     int total = 0;
 
     for (int i = 0; i < Constants::WORD_COUNT; ++i) {
-        score = w.simulate(Constants::WORDS[i], "arise", &risk);
+        score = w.simulate(Constants::WORDS[i], "ghost", &risk);
+
         total += score;
         w.new_game();
     }
     std::cout << "Farts: " << (double)total / Constants::WORD_COUNT
               << std::endl;
-    // total = 0;
-    // Options words;
-    // for (int i = 0; i < Constants::WORD_COUNT; ++i) {
-    //     words.push_back(Constants::WORDS[i]);
-    // }
-
-    // auto res = dijkstra_best(words);
-
-    // std::cout << res << std::endl;
 }
+// total = 0;
+// Options words;
+// for (int i = 0; i < Constants::WORD_COUNT; ++i) {
+//     words.push_back(Constants::WORDS[i]);
+// }
+
+// auto res = dijkstra_best(words);
+
+// std::cout << res << std::endl;
+// }
